@@ -1,13 +1,13 @@
 
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
-
-
 const App = () => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+  const bottomRef = useRef(null);
 
+  // const connector = new ConsoleConnector();
   const surpriseOptions = [
     "When is Christmas?",
     "What is the capital of France?",
@@ -64,7 +64,7 @@ const App = () => {
       }
       const response = await fetch('http://localhost:8000/gemini', options);
       const data = await response.text()
-      console.log(data);
+      // console.log(data.text());
       setChatHistory(oldChatHistory => [...oldChatHistory, {
         role: "user",
         parts: value
@@ -93,6 +93,10 @@ const App = () => {
       getReponse();
     }
   }
+  useEffect(() => {
+    // 滚动到底部
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatHistory]); // 依赖项为messages，当messages变化时触发滚动
   return (
     <div className="app">
         <p>What do you want to know?
@@ -119,7 +123,8 @@ const App = () => {
               <ReactMarkdown>{chatItem.parts}</ReactMarkdown>
                 </p>
           </div>)}
-          
+          <div ref={bottomRef} />
+
         </div>
 
     </div>
