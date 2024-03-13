@@ -1,6 +1,3 @@
-# Gemini Pro Chatbot
-Simple chatbot app with memory of previous conversations. 'Surprise Me' button generates a random question. Uses ```model:  "gemini-pro"``` in the api call.
-Built using ```npx create-react-app <app name>```
 ## Dependencies for server.js:
 ```
 npm install cors dotenv express nodemon
